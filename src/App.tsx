@@ -9,7 +9,7 @@ import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
 } from "@refinedev/react-router";
-import { dataProvider } from "./providers/data";
+import { dataProvider } from "@/providers/data.ts";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { Toaster } from "@components/refine-ui/notification/toaster";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
