@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DEPARTMENT_OPTIONS, ALL_DEPARTMENTS } from "@/constants";
-import { ISubject } from "@/types";
+import { Subject } from "@/types";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef } from "@tanstack/react-table";
 import { Search } from "lucide-react";
@@ -21,10 +21,21 @@ import { useMemo, useState } from "react";
 const SubjectsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  const departmentFilters = selectedDepartment === ALL_DEPARTMENTS ? [] : [{ field: "department", operator: "eq" as const, value: selectedDepartment }];
-  const searchFilters = searchQuery ? [{ field: "name", operator: "contains" as const, value: searchQuery }] : [];
-  const subjectTable = useTable<ISubject>({
-    columns: useMemo<ColumnDef<ISubject>[]>(
+  const departmentFilters =
+    selectedDepartment === ALL_DEPARTMENTS
+      ? []
+      : [
+          {
+            field: "department",
+            operator: "eq" as const,
+            value: selectedDepartment,
+          },
+        ];
+  const searchFilters = searchQuery
+    ? [{ field: "name", operator: "contains" as const, value: searchQuery }]
+    : [];
+  const subjectTable = useTable<Subject>({
+    columns: useMemo<ColumnDef<Subject>[]>(
       () => [
         {
           id: "code",
@@ -45,7 +56,7 @@ const SubjectsList = () => {
         },
         {
           id: "department",
-          accessorKey: "department",
+          accessorKey: "department.name",
           size: 150,
           header: () => <p className="column-title">Department</p>,
           cell: ({ getValue }) => <Badge>{getValue<string>()}</Badge>,
@@ -66,16 +77,15 @@ const SubjectsList = () => {
       resource: "subjects",
       pagination: { pageSize: 10, mode: "server" },
       filters: {
-        permanent: [
-          ...departmentFilters ,
-          ...searchFilters ,
-        ],
+        permanent: [...departmentFilters, ...searchFilters],
       },
       sorters: {
-        initial: [{
-          field: 'id',
-          order: 'desc',
-        }]
+        initial: [
+          {
+            field: "id",
+            order: "desc",
+          },
+        ],
       },
     },
   });
