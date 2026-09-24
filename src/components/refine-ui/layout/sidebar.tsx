@@ -205,8 +205,12 @@ function SidebarItemDropdown({ item, selectedKey }: MenuItemProps) {
 
 function SidebarItemLink({ item, selectedKey }: MenuItemProps) {
   const isSelected = item.key === selectedKey;
+  const { isMobile, setOpenMobile } = useShadcnSidebar();
 
-  return <SidebarButton item={item} isSelected={isSelected} asLink={true} />;
+  return (
+    <SidebarButton item={item} isSelected={isSelected} asLink={true}
+      onClick={() => { if (isMobile) setOpenMobile(false); }} />
+  );
 }
 
 function SidebarHeader() {

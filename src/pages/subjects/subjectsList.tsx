@@ -31,9 +31,11 @@ const SubjectsList = () => {
             value: selectedDepartment,
           },
         ];
+
   const searchFilters = searchQuery
     ? [{ field: "name", operator: "contains" as const, value: searchQuery }]
     : [];
+
   const subjectTable = useTable<Subject>({
     columns: useMemo<ColumnDef<Subject>[]>(
       () => [
@@ -73,6 +75,7 @@ const SubjectsList = () => {
       ],
       [],
     ),
+
     refineCoreProps: {
       resource: "subjects",
       pagination: { pageSize: 10, mode: "server" },
@@ -89,13 +92,16 @@ const SubjectsList = () => {
       },
     },
   });
+
   return (
     <ListView>
       <Breadcrumb />
       <h1 className="page-title">Subjects</h1>
+
       <div className="intro-row">
         <p>Quick access to essential metrics and management tools</p>
       </div>
+
       <div className="search-field">
         <Search className="search-icon" />
         <Input
@@ -108,6 +114,7 @@ const SubjectsList = () => {
           }
         />
       </div>
+
       <div className="actions-row items-center">
         <Select
           value={selectedDepartment}
@@ -127,6 +134,7 @@ const SubjectsList = () => {
         </Select>
         <CreateButton />
       </div>
+
       <DataTable table={subjectTable} />
     </ListView>
   );
