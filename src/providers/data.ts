@@ -13,16 +13,19 @@ const options: CreateDataProviderOptions = {
     buildQueryParams: async ({ resource, pagination, filters }) => {
       const page = pagination?.currentPage || 1; 
       const pageSize = pagination?.pageSize || 10; 
-      const params: Record<string, string | number> = { page, limit: pageSize };
+      const params: Record<string, string | number> = pagination?.mode === "off"
+        ? { pagination: "off" }
+        : { page, limit: pageSize };
       
       filters?.forEach(filter => {
         const field = 'field' in filter ? filter.field : '';
+        if (filter.value === undefined || filter.value === null || filter.value === "") return;
         const value = String(filter.value);
 
         if (resource === 'subjects') {
-          if (field === 'department') {
-            params.department = value;
-          } else if (field === 'name' || field === 'code') {
+          if (field === 'departmentId') {
+            params.departmentId = value;
+          } else if (field === 'name') {
             params.search = value;
           }
         }
